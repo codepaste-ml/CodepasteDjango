@@ -17,12 +17,16 @@ class Source(models.Model):
         max_length=255,
         verbose_name='Lang',
     )
-    source_telegram = models.BooleanField(
+    source_bot = models.BooleanField(
         default=False,
+        verbose_name='From bot',
+    )
+    source_telegram = models.IntegerField(
+        null=True,
         verbose_name='Telegram',
     )
     source_time = models.DateTimeField(
-        default=datetime.now(),
+        default=datetime.now,
         verbose_name='Time'
     )
     source_name = models.CharField(

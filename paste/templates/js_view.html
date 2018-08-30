@@ -10,7 +10,7 @@
             $('.header-text').first().text(source.source_name);
             //$('.raw-link').attr('href', 'http://raw.codepaste.me/' + source.source_alias);
 
-            if(source.source_telegram === true) {
+            if(source.source_bot === true) {
                 $('.header-text').first().append($('<sup>')
                 .addClass('through-bot')
                 .append($('<a>', {

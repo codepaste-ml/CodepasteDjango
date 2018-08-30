@@ -30,8 +30,9 @@ def post_creation(request):
 
         _source.source_alias = hashlib.md5(str(_source.id).encode()).hexdigest()[:8]
         _source.save()
-    except Error:
+    except Error as e:
         success = False
+        print(e)
 
     data = {
         "success": success,
@@ -49,6 +50,6 @@ def get_lang(request):
 
 def view_source(request, alias):
     source = get_object_or_404(Source, source_alias=alias)
-    source = model_to_dict(source, fields="source_alias, source_lang, source_name, source_source, source_telegram")
+    source = model_to_dict(source, fields="source_alias, source_lang, source_name, source_source, source_bot")
 
     return render(request, 'view.html', {'source': json.dumps(json.dumps(source))})
