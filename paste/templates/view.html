@@ -1,0 +1,19 @@
+{% extends 'js_view.html' %}
+
+{% block content %}
+    <div class="container-fluid content">
+        <h2 class="text-center header-text"></h2>
+        <div class="code-area">
+            <pre><code class="code hljs"></code></pre>
+        </div>
+        <h3 class="text-center header-text">
+            <a class="raw-link" href="#">
+                <span class="link glyphicon glyphicon-link" aria-hidden="true"></span>
+            </a>
+            Raw code
+        </h3>
+        <div class="form-group">
+            <textarea class="form-control raw code-area" rows="20" readonly title="Raw code"></textarea>
+        </div>
+    </div>
+{% endblock %}

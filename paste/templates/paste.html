@@ -1,0 +1,36 @@
+{% extends 'js_paste.html' %}
+
+{% block content %}
+    <div class="container-fluid content">
+        <h2 class="text-center header-text">New Paste</h2>
+        <div class="form-group">
+            <textarea class="form-control code-area" rows="20" title="New Paste"></textarea>
+        </div>
+        <div class="controls">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="name">Name:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="name" placeholder="Untitled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="lang">Language:</label>
+                            <div class="col-sm-8">
+                                <select id="lang" class="language_select"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-offset-6 col-md-2">
+                    {% csrf_token %}
+                    <button type="button" class="submit pull-right btn btn-success btn-block" onclick="submit()">
+                        <span>Submit</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
