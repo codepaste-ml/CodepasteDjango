@@ -1,7 +1,20 @@
-import telebot
+import traceback
+import json
+
+from django.http import Http404, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from telegram import Update
 
 from .apps import BotConfig
 
 
+@csrf_exempt
 def bot(request):
-    BotConfig.bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    try:
+        BotConfig.bot.webhook(Update.de_json(json.loads(request.body.decode('utf-8')), BotConfig.bot.bot))
+
+        return HttpResponse('OK')
+    except:
+        traceback.print_exc()
+        raise Http404

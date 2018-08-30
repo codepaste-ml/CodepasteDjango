@@ -1,43 +1,35 @@
 import hashlib
 
+from django.conf import settings
 from django.db import Error
 
 from paste.models import Source
-from .apps import BotConfig
-
-bot = BotConfig.bot
-chatbase = BotConfig.chatbase
 
 
-@bot.message_handler(commands=['start', 'help'])
-def start_handler(message):
+def start_or_help(bot, update):
     text = 'Send something to get link on this. /records - view your posts'
 
-    bot.send_message(message.chat.id, text)
-    chatbase.track(message, 'start/help')
+    update.message.reply_text(text)
 
 
-@bot.message_handler(commands=['records'])
-def records_handler(message):
+def records(bot, update):
     sources = Source.objects.all().filter(
-        source_telegram=message.chat.id
+        source_telegram=update.message.from_user.id
     )
 
     text = 'Your records list:\n'
     for source in sources:
-        text += '{}/{}\n'.format(BotConfig.site_domain, source.source_alias)
+        text += prepare_source_link(source.source_alias)
 
-    bot.send_message(message.chat.id, text)
-    chatbase.track(message, 'records')
+    update.message.reply_text(text)
 
 
-@bot.message_handler(content_types=['text'])
-def text_handler(message):
+def paste(bot, update):
     _source = Source(
-        source_source=message.text,
+        source_source=update.message.text,
         source_name='Untitled',
         source_lang='auto',
-        source_telegram=message.chat.id,
+        source_telegram=update.message.from_user.id,
         source_bot=True
     )
 
@@ -48,13 +40,11 @@ def text_handler(message):
         _source.save()
 
         text = prepare_source_link(_source.source_alias)
-        bot.send_message(message.chat.id, text, reply_to_message_id=message.message_id)
+        update.message.reply_text(text)
     except Error:
         text = "НАПОМНИТЕ ЭТОМУ СЛАВЕ-ДАУНУ ДОПИСАТЬ ЭТОТ МУСОР"
-        bot.send_message(message.chat.id, text, reply_to_message_id=message.message_id)
-
-    chatbase.track(message, 'text')
+        update.message.reply_text(text)
 
 
 def prepare_source_link(alias):
-    return '{}/{}'.format(BotConfig.site_domain, alias)
+    return '{}/{}'.format(settings.SITE_DOMAIN, alias)
