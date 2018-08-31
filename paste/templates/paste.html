@@ -1,4 +1,4 @@
-{% extends 'js_paste.html' %}
+{% extends 'skeleton.html' %}
 
 {% block content %}
     <div class="container-fluid content">
@@ -33,4 +33,82 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function submit() {
+            const source = $('.code-area').val(),
+                name = $('#name').val() || "Untitled",
+                lang = $('#lang').val(),
+                token = $('input[name=csrfmiddlewaretoken]').val();
+
+            $.ajax('/ajax/createPost/', {
+                data: {
+                    csrfmiddlewaretoken: token,
+                    source: source,
+                    name: name,
+                    lang: lang
+                },
+                type: "post",
+                dataType: "json",
+                success: function(data) {
+                    if(data.success) {
+                        location.href = "/" + data.id;
+                    } else {
+                        alert("НАПОМНИТЕ ЭТОМУ ДАУНУ ДОПИСАТЬ ЭТОТ МУСОР");
+                    }
+                }
+            })
+        }
+
+        const langSelectData = {
+            data: [{
+                id: 'auto',
+                text: 'Auto'
+            }, {
+                id: 'text',
+                text: "Plain Text"
+            }, {
+                id: 'nul',
+                text: "Loading..",
+                disabled: true
+            }]
+        };
+
+        const languageSelect = $('.language_select').select2(langSelectData);
+
+        $.ajax('/ajax/getLang/', {
+            dataType: "json",
+            success: function(data) {
+                data.data = data.data.map((x) => ({id: x.lang_id, text:x.lang_text}));
+                data.data.unshift({
+                    id: 'auto',
+                    text: 'Auto'
+                });
+
+                languageSelect.select2('destroy').empty().select2(data);
+                languageSelect.val("auto");
+                languageSelect.trigger('change');
+            }
+        });
+
+
+        $(() => {
+            $('.code-area').on('keydown', (e) => {
+                var keyCode = e.keyCode || e.which;
+
+                if (keyCode === 9) {
+                    e.preventDefault();
+
+                    const start = $(this).get(0).selectionStart;
+                    const end = $(this).get(0).selectionEnd;
+
+                    const it = $(this), val = it.val();
+                    it.val(val.substring(0, start) + '\t' + val.substring(end));
+                    it.get(0).selectionStart = it.get(0).selectionEnd = start + 1;
+                }
+            });
+        });
+    </script>
 {% endblock %}

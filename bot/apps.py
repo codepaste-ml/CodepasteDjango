@@ -1,6 +1,6 @@
 from django.apps import AppConfig
+from django.conf import settings
 
-from Codepaste import settings
 from .bot import Bot
 
 

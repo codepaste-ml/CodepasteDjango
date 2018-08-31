@@ -1,19 +1,133 @@
-{% extends 'js_view.html' %}
+{% extends 'skeleton.html' %}
+
+{% load staticfiles %}
 
 {% block content %}
-    <div class="container-fluid content">
-        <h2 class="text-center header-text"></h2>
-        <div class="code-area">
-            <pre><code class="code hljs"></code></pre>
+    {% block paste %}
+        <div class="container-fluid content">
+            <h2 class="text-center header-text"></h2>
+            <div class="code-area">
+                <pre><code class="code hljs"></code></pre>
+            </div>
+            <h3 class="text-center header-text">
+                <a class="raw-link" href="#">
+                    <span class="link glyphicon glyphicon-link" aria-hidden="true"></span>
+                </a>
+                Raw code
+            </h3>
+            <div class="form-group">
+                <textarea class="form-control raw code-area" rows="20" readonly title="Raw code"></textarea>
+            </div>
         </div>
-        <h3 class="text-center header-text">
-            <a class="raw-link" href="#">
-                <span class="link glyphicon glyphicon-link" aria-hidden="true"></span>
-            </a>
-            Raw code
-        </h3>
-        <div class="form-group">
-            <textarea class="form-control raw code-area" rows="20" readonly title="Raw code"></textarea>
+    {% endblock %}
+    {% block loader %}
+        <div class="cssload-loader">
+            <div class="cssload-top">
+                <div class="cssload-square">
+                    <div class="cssload-square">
+                        <div class="cssload-square">
+                            <div class="cssload-square">
+                                <div class="cssload-square"><div class="cssload-square">
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cssload-bottom">
+                <div class="cssload-square">
+                    <div class="cssload-square">
+                        <div class="cssload-square">
+                            <div class="cssload-square">
+                                <div class="cssload-square"><div class="cssload-square">
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cssload-left">
+                <div class="cssload-square">
+                    <div class="cssload-square">
+                        <div class="cssload-square">
+                            <div class="cssload-square">
+                                <div class="cssload-square"><div class="cssload-square">
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cssload-right">
+                <div class="cssload-square">
+                    <div class="cssload-square">
+                        <div class="cssload-square">
+                            <div class="cssload-square">
+                                <div class="cssload-square"><div class="cssload-square">
+                                </div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var source = JSON.parse({{ source|safe }});
+
+        $(function() {
+            $('.raw').val(source.source_source);
+            $('.header-text').first().text(source.source_name);
+            //$('.raw-link').attr('href', 'http://raw.codepaste.me/' + source.source_alias);
+
+            if(source.source_bot === true) {
+                $('.header-text').first().append($('<sup>')
+                    .addClass('through-bot')
+                    .append($('<a>', {
+                            'href': 'https://telegram.me/codepaste_bot',
+                            'target': '_blank'
+                        })
+                            .append($('<img>', {
+                                'src': '{% static 'css/telegram-icon.png' %}'
+                            }))
+                            .append('bot')
+                    ));
+            }
+
+            highlight(source);
+        });
+
+        function highlight(source) {
+            const worker = new Worker('{% static 'js/highlightjs-worker.js' %}');
+
+            worker.onmessage = function (ev) {
+                $('.code').html(ev.data).each(function(i, block) {
+                    hljsNumbers.lineNumbersBlock(block);
+                });
+
+                let rowCount = $('.hljs-ln-numbers').length;
+                if(rowCount === 0) rowCount = 1;
+                $('.raw').attr('rows', Math.min(rowCount, 20));
+
+                setTimeout(function() {
+                    $('.cssload-loader').addClass("disabled");
+                    $('.cssload-square').addClass("disabled");
+                    setTimeout(function() {
+                        $('.cssload-loader').hide();
+                    }, 250);
+                }, 50);
+            };
+
+            worker.postMessage(JSON.stringify({
+                source: source,
+                libPath: '{% static 'js/highlight.pack.js' %}'
+            }));
+        }
+    </script>
+
+    <script src="{% static 'js/to-top.js' %}"></script>
+    <button class="to-top"><span class="checkmark"></span></button>
 {% endblock %}
