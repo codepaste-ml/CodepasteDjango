@@ -119,7 +119,7 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
         },
@@ -151,7 +151,6 @@ LOGGING = {
         }
     }
 }
-
 
 LANGUAGE_CODE = 'ru-RU'
 

@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from bot.models import BotUser
+
 
 class Source(models.Model):
     class Meta:
@@ -21,9 +23,11 @@ class Source(models.Model):
         default=False,
         verbose_name='From bot',
     )
-    source_telegram = models.IntegerField(
+    source_bot_user = models.ForeignKey(
+        BotUser,
         null=True,
-        verbose_name='Telegram',
+        on_delete=models.SET_NULL,
+        verbose_name='Telegram user'
     )
     source_time = models.DateTimeField(
         default=datetime.now,

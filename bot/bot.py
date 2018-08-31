@@ -3,20 +3,27 @@ from threading import Thread
 
 from django.conf import settings
 from telegram import Bot as TelegramBot
-from telegram.ext import Dispatcher, CommandHandler, Filters, MessageHandler, Updater
+from telegram.ext import Dispatcher, Updater
 
-from .handlers import start_or_help, records, paste
+from .handlers import Handlers
+
+
+import logging
+logging.basicConfig(level=logging.ERROR,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 class Bot:
     def __init__(self, token, url=settings.SITE_DOMAIN):
         self.bot = TelegramBot(token)
+        self.handler = Handlers(self)
         self.dispatcher = None
 
         if settings.DEBUG:
             self.updater = Updater(token)
             self.dispatcher = self.updater.dispatcher
-            self.register_handlers()
+
+            self.handler.register(self.dispatcher)
 
             self.updater.start_polling()
         else:
@@ -27,15 +34,10 @@ class Bot:
 
             self.dispatcher = Dispatcher(self.bot, self.update_queue)
 
-            self.register_handlers()
+            self.handler.register(self.dispatcher)
 
             thread = Thread(target=self.dispatcher.start, name='dispatcher')
             thread.start()
-
-    def register_handlers(self):
-        self.dispatcher.add_handler(CommandHandler(['start', 'help'], start_or_help))
-        self.dispatcher.add_handler(CommandHandler('records', records))
-        self.dispatcher.add_handler(MessageHandler(Filters.text, paste))
 
     def webhook(self, update):
         self.update_queue.put(update)
