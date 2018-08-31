@@ -1,12 +1,13 @@
 from django.apps import AppConfig
 
+from Codepaste import settings
 from .bot import Bot
 
 
 class BotConfig(AppConfig):
     name = 'bot'
     version = '1.0.0'
-    telegram_bot_token = '430327453:AAFpu-LZHC39yKOmyXTqcErFZmRKWPSSSJ8'
-    chatbase_token = '027943b2-d3a0-4bd6-a58f-06c1594ba46f'
+    telegram_bot_token = settings.TELEGRAM_BOT_TOKEN
+    chatbase_token = settings.CHATBASE_TOKEN
 
     bot = Bot(telegram_bot_token)

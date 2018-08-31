@@ -14,13 +14,13 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_DOMAIN = 'https://codepaste-django.herokuapp.com'
+SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'https://codepaste-django.herokuapp.com')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5p&^$+8hb0k(*))&=73)xevi2na6$(#!l3tg0=706qmd1kte14'
+SECRET_KEY = os.environ.get('SECRET_KEY', '5p&^$+8hb0k(*))&=73)xevi2na6$(#!l3tg0=706qmd1kte14')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'Codepaste.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'desm37nkurq8uk',
-        'USER': 'gqroltgbdavtrm',
-        'PASSWORD': '01d678766bf1ab39e5f654e8d7669e2b701035cdc1547e75d663d9d817cdc8f8',
-        'HOST': 'ec2-54-217-235-137.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
+        'NAME': os.environ.get('DATABASE_NAME', 'desm37nkurq8uk'),
+        'USER': os.environ.get('DATABASE_USER', 'gqroltgbdavtrm'),
+        'PASSWORD': os.environ.get('DATABASE_PASS', '01d678766bf1ab39e5f654e8d7669e2b701035cdc1547e75d663d9d817cdc8f8'),
+        'HOST': os.environ.get('DATABASE_HOST', 'ec2-54-217-235-137.eu-west-1.compute.amazonaws.com'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
 
@@ -138,3 +138,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     BASE_DIR + STATIC_URL,
 ]
+
+
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '430327453:AAFpu-LZHC39yKOmyXTqcErFZmRKWPSSSJ8')
+
+CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN', '027943b2-d3a0-4bd6-a58f-06c1594ba46f')
