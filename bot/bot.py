@@ -23,11 +23,8 @@ class Bot:
         self.start()
 
     def register_handlers(self):
-        self.dispatcher.add_handler(CommandHandler('start', start_or_help))
-        self.dispatcher.add_handler(CommandHandler('help', start_or_help))
-
+        self.dispatcher.add_handler(CommandHandler(['start', 'help'], start_or_help))
         self.dispatcher.add_handler(CommandHandler('records', records))
-
         self.dispatcher.add_handler(MessageHandler(Filters.text, paste))
 
     def start(self):

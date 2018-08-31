@@ -19,7 +19,7 @@ def records(bot, update):
 
     text = 'Your records list:\n'
     for source in sources:
-        text += prepare_source_link(source.source_alias)
+        text += prepare_source_link(source.source_alias) + '\n'
 
     update.message.reply_text(text)
 
