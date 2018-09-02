@@ -1,13 +1,21 @@
 from django.apps import AppConfig
-from django.conf import settings
 
-from .bot import Bot
+
+class BotRegistry:
+
+    def __init__(self):
+        self.bots = {}
+
+    def add_bot(self, token, bot):
+        self.bots[token] = bot
+
+    def get_bot(self, token):
+        return self.bots.get(token)
 
 
 class BotConfig(AppConfig):
     name = 'bot'
-    version = '1.0.0'
-    telegram_bot_token = settings.TELEGRAM_BOT_TOKEN
-    chatbase_token = settings.CHATBASE_TOKEN
+    registry = None
 
-    bot = Bot(telegram_bot_token)
+    def ready(self):
+        BotConfig.registry = BotRegistry()

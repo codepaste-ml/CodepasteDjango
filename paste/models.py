@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from bot.models import BotUser
+from pastebot.models import BotUser
 
 
 class Source(models.Model):

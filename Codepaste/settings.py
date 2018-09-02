@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'paste',
-    'bot'
+    'paste.apps.PasteConfig',
+    'bot.apps.BotConfig',
+    'pastebot.apps.PastebotConfig'
 ]
 
 MIDDLEWARE = [
@@ -172,6 +173,6 @@ STATICFILES_DIRS = [
 ]
 
 
-TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '430327453:AAFpu-LZHC39yKOmyXTqcErFZmRKWPSSSJ8')
+PASTEBOT_TOKEN = os.environ.get('PASTEBOT_TOKEN')
 
-CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN', '027943b2-d3a0-4bd6-a58f-06c1594ba46f')
+CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN')

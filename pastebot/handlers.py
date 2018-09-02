@@ -5,10 +5,10 @@ from django.db import Error
 from telegram import ChatAction, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
-from bot.models import BotUser
+from pastebot.models import BotUser
 from paste.models import Source
 
-from . lang import translate as _
+from pastebot.lang import translate as _
 
 
 def prepare_source_link(alias):
@@ -73,9 +73,6 @@ class Dialog:
 
 
 class Handlers:
-
-    def __init__(self, bot):
-        self.bot = bot
 
     def register(self, dispatcher):
         Dialog.init()
