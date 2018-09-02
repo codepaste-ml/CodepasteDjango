@@ -9,9 +9,13 @@ from .apps import BotConfig
 
 @csrf_exempt
 def webhook(request, token):
+    print("Catched webhook with token %s" % token)
     bot = BotConfig.registry.get_bot(token)
+    print("Get bot")
     if bot is not None:
+        print("Bot is not None")
         bot.webhook(Update.de_json(json.loads(request.body.decode('utf-8')), bot.bot))
+        print("Passed updated")
         return HttpResponse()
     else:
         raise Http404
