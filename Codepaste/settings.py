@@ -74,6 +74,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Codepaste.wsgi.application'
 
 
+EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
+EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
+EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
+EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
