@@ -28,6 +28,7 @@ class Bot:
             self.dispatcher = Dispatcher(self.bot, self.update_queue)
 
             thread = Thread(target=self.dispatcher.start, name='dispatcher')
+            thread.daemon = True
             thread.start()
 
     def register(self, handler):
