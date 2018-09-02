@@ -1,1 +1,1 @@
-web: gunicorn Codepaste.wsgi
+web: gunicorn Codepaste.wsgi --preload
