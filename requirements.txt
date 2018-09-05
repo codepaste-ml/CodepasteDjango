@@ -5,3 +5,4 @@ psycopg2==2.7.5
 whitenoise==4.0
 gunicorn==19.9.0
 python-telegram-bot==11.0.0
+django-hosts==3.0

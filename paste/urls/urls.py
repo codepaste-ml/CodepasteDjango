@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path, re_path
 
-from .views import index, post_creation, get_lang, view_source
+from paste.views import index, post_creation, get_lang, view_source
 
 urlpatterns = [
     path('ajax/createPost/', post_creation, name='post_creation'),

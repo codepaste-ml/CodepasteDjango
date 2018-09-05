@@ -3,7 +3,7 @@ import json
 
 from django.db import Error
 from django.forms.models import model_to_dict
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Source, Lang
@@ -55,5 +55,12 @@ def get_lang(request):
 def view_source(request, alias):
     source = get_object_or_404(Source, source_alias=alias)
     source = model_to_dict(source, fields="source_alias, source_lang, source_name, source_source, source_bot")
+    return render(request, 'view.html', {
+        'source': json.dumps(json.dumps(source)),
+        'alias': alias
+    })
 
-    return render(request, 'view.html', {'source': json.dumps(json.dumps(source))})
+
+def view_source_raw(request, alias):
+    source = get_object_or_404(Source, source_alias=alias)
+    return HttpResponse(source.source_source, content_type='text/plain')

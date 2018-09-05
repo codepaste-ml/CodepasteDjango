@@ -4,7 +4,7 @@ from django.conf import settings
 from telegram import Bot as TelegramBot, Update
 from telegram.ext import Dispatcher, Updater
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.ERROR,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 

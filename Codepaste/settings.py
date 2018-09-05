@@ -13,9 +13,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_DOMAIN = os.environ.get('SITE_DOMAIN', 'https://codepaste-django.herokuapp.com')
 
-SECRET_KEY = os.environ.get('SECRET_KEY', '5p&^$+8hb0k(*))&=73)xevi2na6$(#!l3tg0=706qmd1kte14')
+HOST_SCHEME = 'https://'
+PARENT_HOST = 'codepaste.me'
+SITE_DOMAIN = HOST_SCHEME + PARENT_HOST
+
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -35,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_hosts',
     'paste.apps.PasteConfig',
     'bot.apps.BotConfig',
     'pastebot.apps.PastebotConfig'
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,9 +55,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
 ROOT_URLCONF = 'Codepaste.urls'
+ROOT_HOSTCONF = 'Codepaste.hosts'
+DEFAULT_HOST = 'default'
 
 TEMPLATES = [
     {

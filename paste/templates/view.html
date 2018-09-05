@@ -1,6 +1,7 @@
 {% extends 'skeleton.html' %}
 
 {% load staticfiles %}
+{% load hosts %}
 
 {% block content %}
     {% block paste %}
@@ -10,7 +11,7 @@
                 <pre><code class="code hljs"></code></pre>
             </div>
             <h3 class="text-center header-text">
-                <a class="raw-link" href="#">
+                <a class="raw-link" href="{% host_url 'view_source_raw' alias=alias host 'raw' %}">
                     <span class="link glyphicon glyphicon-link" aria-hidden="true"></span>
                 </a>
                 Raw code
