@@ -1,9 +1,7 @@
 import logging
-from queue import Queue
-from threading import Thread
 
 from django.conf import settings
-from telegram import Bot as TelegramBot
+from telegram import Bot as TelegramBot, Update
 from telegram.ext import Dispatcher, Updater
 
 logging.basicConfig(level=logging.DEBUG,
@@ -21,18 +19,12 @@ class Bot:
 
             self.updater.start_polling()
         else:
-            self.update_queue = Queue()
-            self.bot.delete_webhook()
             self.bot.set_webhook('{}/{}/{}/'.format(url, 'bot', token))
 
-            self.dispatcher = Dispatcher(self.bot, self.update_queue)
-
-            thread = Thread(target=self.dispatcher.start, name='dispatcher')
-            thread.daemon = True
-            thread.start()
+            self.dispatcher = Dispatcher(self.bot, None, workers=0)
 
     def register(self, handler):
         handler.register(self.dispatcher)
 
     def webhook(self, update):
-        self.update_queue.put(update)
+        self.dispatcher.process_update(Update.de_json(update, self.bot))

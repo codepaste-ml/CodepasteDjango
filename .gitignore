@@ -1,5 +1,7 @@
 .idea
 *.iml
+venv
+__pycache__
 
 env.*
 migrations
