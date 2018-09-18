@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django_hosts',
     'paste.apps.PasteConfig',
     'bot.apps.BotConfig',
-    'pastebot.apps.PastebotConfig'
+    'pastebot.apps.PastebotConfig',
+    'dadadabot.apps.DadadabotConfig'
 ]
 
 MIDDLEWARE = [
@@ -191,3 +192,6 @@ STATICFILES_DIRS = [
 PASTEBOT_TOKEN = os.environ.get('PASTEBOT_TOKEN')
 
 CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN')
+
+DADADABOT_AUDIO = os.environ.get('DADADABOT_AUDIO')
+DADADABOT_TOKEN = os.environ.get('DADADABOT_TOKEN')
