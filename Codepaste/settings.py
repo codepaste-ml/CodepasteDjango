@@ -15,7 +15,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HOST_SCHEME = 'https://'
-PARENT_HOST = 'codepaste.me'
+PARENT_HOST = 'codepaste.ml'
 SITE_DOMAIN = HOST_SCHEME + PARENT_HOST
 
 
@@ -82,13 +82,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Codepaste.wsgi.application'
-
-
-EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
-EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
-EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
-EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
-
 
 DATABASES = {
     'default': {
