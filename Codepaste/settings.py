@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_hosts',
+    'background_task',
     'paste.apps.PasteConfig',
     'bot.apps.BotConfig',
     'pastebot.apps.PastebotConfig',
-    'dadadabot.apps.DadadabotConfig'
+    'dadadabot.apps.DadadabotConfig',
+    'vkrepost.apps.VkRepostConfig'
 ]
 
 MIDDLEWARE = [
@@ -134,7 +136,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
         'console_debug_false': {
-            'level': 'ERROR',
+            'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.StreamHandler',
         },
@@ -188,3 +190,7 @@ CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN')
 
 DADADABOT_AUDIO = os.environ.get('DADADABOT_AUDIO')
 DADADABOT_TOKEN = os.environ.get('DADADABOT_TOKEN')
+
+VKREPOST_TOKEN = os.environ.get('VKREPOST_TOKEN')
+VKREPOST_VK_TOKEN = os.environ.get('VKREPOST_VK_TOKEN')
+
