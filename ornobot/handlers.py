@@ -1,11 +1,13 @@
 from uuid import uuid4
 
-from django.conf import settings
 from telegram import InlineQueryResultCachedVoice
 from telegram.ext import InlineQueryHandler
 
 
 class Handlers:
+
+    AUDIO_DADADA = 'AwADAgADegEAApu8aEg9corkhsv9CwI'
+    AUDIO_AAAAAA = 'CQADAgADkgIAAtvbCUmgBARns6QljgI'
 
     def register(self, dispatcher):
         dispatcher.add_handler(InlineQueryHandler(self.inlinequery))
@@ -14,8 +16,13 @@ class Handlers:
         results = [
             InlineQueryResultCachedVoice(
                 id=uuid4(),
-                voice_file_id=settings.DADADABOT_AUDIO,
+                voice_file_id=Handlers.AUDIO_DADADA,
                 title='Dadadadadadadadadada'
+            ),
+            InlineQueryResultCachedVoice(
+                id=uuid4(),
+                voice_file_id=Handlers.AUDIO_AAAAAA,
+                title='AAAAAAAAAAAAAAAAAAAA'
             ),
         ]
 

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'paste.apps.PasteConfig',
     'bot.apps.BotConfig',
     'pastebot.apps.PastebotConfig',
-    'dadadabot.apps.DadadabotConfig',
+    'ornobot.apps.OrnobotConfig',
     'vkrepost.apps.VkRepostConfig'
 ]
 
@@ -188,8 +188,7 @@ PASTEBOT_TOKEN = os.environ.get('PASTEBOT_TOKEN')
 
 CHATBASE_TOKEN = os.environ.get('CHATBASE_TOKEN')
 
-DADADABOT_AUDIO = os.environ.get('DADADABOT_AUDIO')
-DADADABOT_TOKEN = os.environ.get('DADADABOT_TOKEN')
+ORNOBOT_TOKEN = os.environ.get('ORNOBOT_TOKEN')
 
 VKREPOST_TOKEN = os.environ.get('VKREPOST_TOKEN')
 VKREPOST_VK_TOKEN = os.environ.get('VKREPOST_VK_TOKEN')
