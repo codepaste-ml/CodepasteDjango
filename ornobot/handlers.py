@@ -16,7 +16,7 @@ class Handlers:
         results = [
             InlineQueryResultCachedVoice(
                 id=uuid4(),
-                voice_file_id=Handlers.AUDIO_DADADA,
+                voice_file_id=Handlers.AUDIO_AAAAAA,
                 title='Dadadadadadadadadada'
             ),
         ]
