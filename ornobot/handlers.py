@@ -19,11 +19,6 @@ class Handlers:
                 voice_file_id=Handlers.AUDIO_DADADA,
                 title='Dadadadadadadadadada'
             ),
-            InlineQueryResultCachedVoice(
-                id=uuid4(),
-                voice_file_id=Handlers.AUDIO_AAAAAA,
-                title='AAAAAAAAAAAAAAAAAAAA'
-            ),
         ]
 
         update.inline_query.answer(results)
