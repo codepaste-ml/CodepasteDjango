@@ -6,7 +6,7 @@ from telegram.ext import InlineQueryHandler
 
 class Handlers:
 
-    AUDIO_DADADA = 'AwADAgADegEAApu8aEg9corkhsv9CwI'
+    AUDIO_DADADA = 'AwADAgADnAMAAyYQSTsOw9RRLA2wAg'
     AUDIO_AAAAAA = 'AwADAgADsQMAAyYISQmZwwh9Gg5iAg'
 
     def register(self, dispatcher):
