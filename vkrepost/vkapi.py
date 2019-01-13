@@ -62,10 +62,11 @@ class VkApi:
 
         if res is not None:
             video_url = None
-            for file, url in res['items'][0]['files'].items:
-                if file != 'external':
-                    video_url = url
+            if 'files' in res['items'][0]:
+                for file, url in res['items'][0]['files'].items:
+                    if file != 'external':
+                        video_url = url
 
-            return video_url
+                return video_url
 
         return None

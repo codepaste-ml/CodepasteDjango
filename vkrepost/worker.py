@@ -60,7 +60,7 @@ class Worker:
                     gifs.append(gif)
                     original_order.append(InputMediaAnimation(gif))
                 elif type == 'video':
-                    video_id = '{}_{}'.format(value['owner_id'], value['vid'])
+                    video_id = '{}_{}'.format(value['owner_id'], value['id'])
                     video_url = self.vkapi.get_video(video_id)
                     if video_url is not None:
                         videos.append(video_url)
@@ -72,9 +72,11 @@ class Worker:
         has_groups = len(original_order) > 1
 
         if not has_attachments:
-            bot.send_message(chat_id, text, parse_mode='HTML')
+            if text:
+                bot.send_message(chat_id, text, parse_mode='HTML')
         elif has_groups:
-            bot.send_message(chat_id, text, parse_mode='HTML')
+            if text:
+                bot.send_message(chat_id, text, parse_mode='HTML')
             for i in range(0, len(original_order), 10):
                 bot.send_media_group(chat_id, original_order[i:i+10])
         else:
@@ -82,22 +84,19 @@ class Worker:
                 if len(text) < 200:
                     bot.send_photo(chat_id, photo, caption=text)
                 else:
-                    text = '<a href="{}">&#8203;</a>{}'.format(photo, text)
-                    bot.send_message(chat_id, text, parse_mode='HTML')
+                    bot.send_message(chat_id, self.encode_attachment_url(photo, text), parse_mode='HTML')
 
             for gif, size in gifs:
-                if len(text) >= 200 or size >= 20 * (2 ** 20):
-                    text = '<a href="{}">&#8203;</a>{}'.format(gif, text)
-                    bot.send_message(chat_id, text, parse_mode='HTML')
-                else:
+                if len(text) < 200 and size < 20 * (2 ** 20):
                     bot.send_document(chat_id, gif, caption=text)
+                else:
+                    bot.send_message(chat_id, self.encode_attachment_url(gif, text), parse_mode='HTML')
 
             for video in videos:
                 if len(text) < 200:
                     bot.send_video(chat_id, video, caption=text)
                 else:
-                    text = '<a href="{}">&#8203;</a>{}'.format(video, text)
-                    bot.send_message(chat_id, text, parse_mode='HTML')
+                    bot.send_message(chat_id, self.encode_attachment_url(video, text), parse_mode='HTML')
 
         for audio, caption in audios:
             bot.send_audio(chat_id, audio, caption=caption)
@@ -105,3 +104,6 @@ class Worker:
     def get_biggest_photo_size(self, photo):
         sizes = sorted(photo['sizes'], key=lambda x: x['width'] * x['height'])
         return sizes[-1]['url']
+
+    def encode_attachment_url(self, url, text):
+        return '<a href="{}">&#8203;</a>{}'.format(url, text)

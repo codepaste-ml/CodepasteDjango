@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEBUG = False if os.environ.get("DEBUG") is None else True
+DEBUG = os.environ.get("DEBUG") is not None
 
 ALLOWED_HOSTS = [
     '*'
