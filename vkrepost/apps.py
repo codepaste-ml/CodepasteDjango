@@ -30,4 +30,4 @@ class VkRepostConfig(AppConfig):
             logger.info("Update task running")
             worker.update()
 
-        update_task(repeat=300)
+        update_task(repeat=7200)
