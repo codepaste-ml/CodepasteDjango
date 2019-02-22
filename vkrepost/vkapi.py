@@ -36,7 +36,7 @@ class VkApi:
             print(e)
         return None
 
-    def get_posts(self, group, request_count=20):
+    def get_posts(self, group, request_count=50):
         res = self.request('wall.get', owner_id=-int(group.id), count=request_count, filter='owner')
         result = []
         if res is not None:

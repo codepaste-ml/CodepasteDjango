@@ -1,5 +1,9 @@
+import logging
+
 from django.conf import settings
 from django.apps import AppConfig
+
+logger = logging.getLogger(__name__)
 
 
 class VkRepostConfig(AppConfig):
@@ -23,6 +27,7 @@ class VkRepostConfig(AppConfig):
 
         @background(schedule=10)
         def update_task():
+            logger.info("Update task running")
             worker.update()
 
         update_task(repeat=300)
