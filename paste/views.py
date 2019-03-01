@@ -14,7 +14,7 @@ def index(request):
 
 
 def view404(request, exception, template_name='404.html'):
-    return redirect('/')
+    return redirect('index')
 
 
 def post_creation(request):
