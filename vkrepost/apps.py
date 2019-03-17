@@ -10,12 +10,11 @@ class VkRepostConfig(AppConfig):
     name = 'vkrepost'
 
     def ready(self):
-        from bot.apps import BotConfig
-        from bot.bot import Bot
+        from bot_adapter.apps import BotConfig
+        from bot_adapter.bot import Bot
         from vkrepost.handlers import Handlers
         from vkrepost.vkapi import VkApi
         from vkrepost.worker import Worker
-        from background_task import background
 
         vkapi = VkApi(settings.VKREPOST_VK_TOKEN)
         bot = Bot(settings.VKREPOST_TOKEN)
@@ -24,10 +23,3 @@ class VkRepostConfig(AppConfig):
         bot.register(Handlers(worker))
 
         BotConfig.registry.add_bot(settings.VKREPOST_TOKEN, bot)
-
-        @background(schedule=10)
-        def update_task():
-            logger.info("Update task running")
-            worker.update()
-
-        update_task(repeat=7200)

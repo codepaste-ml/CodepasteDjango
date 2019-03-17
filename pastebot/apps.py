@@ -6,8 +6,8 @@ class PastebotConfig(AppConfig):
     name = 'pastebot'
 
     def ready(self):
-        from bot.apps import BotConfig
-        from bot.bot import Bot
+        from bot_adapter.apps import BotConfig
+        from bot_adapter.bot import Bot
         from pastebot.handlers import Handlers
 
         bot = Bot(settings.PASTEBOT_TOKEN)

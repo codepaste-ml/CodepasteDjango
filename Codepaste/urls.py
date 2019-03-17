@@ -6,7 +6,7 @@ from paste.views import view404
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('paste.urls.urls')),
-    path('', include('bot.urls')),
+    path('', include('bot_adapter.urls')),
 ]
 
 handler404 = view404

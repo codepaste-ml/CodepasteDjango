@@ -6,8 +6,8 @@ class OrnobotConfig(AppConfig):
     name = 'ornobot'
 
     def ready(self):
-        from bot.apps import BotConfig
-        from bot.bot import Bot
+        from bot_adapter.apps import BotConfig
+        from bot_adapter.bot import Bot
         from ornobot.handlers import Handlers
 
         bot = Bot(settings.ORNOBOT_TOKEN)
