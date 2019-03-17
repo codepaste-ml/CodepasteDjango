@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_hosts',
-    'background_task',
     'paste.apps.PasteConfig',
     'bot_adapter.apps.BotConfig',
     'pastebot.apps.PastebotConfig',
