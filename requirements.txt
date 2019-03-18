@@ -7,3 +7,4 @@ gunicorn>=19.9.0
 python-telegram-bot>=11.0.0
 django-hosts>=3.0
 django-python-telegram-bot-adapter
+dj-database-url
