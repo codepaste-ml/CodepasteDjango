@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('paste.urls.urls')),
     path('', include('bot_adapter.urls')),
+    path('', include('social_django.urls', namespace='social'))
 ]
 
 handler404 = view404

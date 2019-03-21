@@ -2,58 +2,106 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% block head %}
-            <meta charset="UTF-8">
-            <meta name="viewport"
-                  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>CodePaste</title>
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>CodePaste</title>
 
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
 
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
 
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/styles/default.css' %}">
 
-            <link rel="stylesheet" href="{% static 'css/styles/default.css' %}">
+        <script src="{% static 'js/highlightjs-line-numbers.js' %}"></script>
 
-            <script src="{% static 'js/highlightjs-line-numbers.js' %}"></script>
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+        <link rel="stylesheet" href="{% static 'css/to-top.css' %}">
+    {% endblock %}
+</head>
+<body>
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static 'favicon.png' %}">
+                </a>
+            </div>
 
-            <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
-            <link rel="stylesheet" href="{% static 'css/style.css' %}">
-            <link rel="stylesheet" href="{% static 'css/loader.css' %}">
-            <link rel="stylesheet" href="{% static 'css/to-top.css' %}">
-        {% endblock %}
-    </head>
-    <body>
-        {% block navbar %}
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'favicon.png' %}"></a>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-left">
-                            <li class="active"><a href="{% url 'index' %}">Home</a></li>
-                            <li><a href="https://t.me/codepaste_bot">Telegram Bot</a></li>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="https://t.me/codepaste_bot">Telegram Bot</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Login
+                            <span class="caret"></span>
+                        </a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="social-buttons">
+                                            <script async src="https://telegram.org/js/telegram-widget.js?5"
+                                                    data-telegram-login="codepaste_dev_bot" data-size="medium" data-userpic="false"
+                                                    data-auth-url="{% url "social:complete" "telegram" %}"></script>
+                                        </div>
+                                        <span class="or-text text-center">or</span>
+                                        <form class="form" role="form" method="post" action="{% url 'index' %}" accept-charset="UTF-8" id="login-nav">
+                                            <div class="form-group">
+                                                <label class="sr-only" for="input_login">Login</label>
+                                                <input type="text" class="form-control" id="input_login" placeholder="Login" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="input_password">Password</label>
+                                                <input type="password" class="form-control" id="input_password" placeholder="Password" required>
+{#                                                <div class="help-block text-right"><a href="">Forget the password ?</a></div>#}
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-block">Log in / Sign up</button>
+                                            </div>
+                                        </form>
+                                    </div>
+{#                                    <div class="bottom text-center">#}
+{#                                        <a href="#"><b>Sign Up</b></a>#}
+{#                                    </div>#}
+                                </div>
+                            </li>
                         </ul>
-                    </div>
-                </div>
-            </nav>
-        {% endblock %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
 
-        {% block content %} {% endblock %}
+{% block content %} {% endblock %}
 
-        {% block javascript %} {% endblock %}
-    </body>
+{% block javascript %}
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+{% endblock %}
+</body>
 </html>

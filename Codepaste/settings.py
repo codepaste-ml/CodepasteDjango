@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_hosts',
+    'social_django',
     'paste.apps.PasteConfig',
     'bot_adapter.apps.BotConfig',
     'pastebot.apps.PastebotConfig',
@@ -63,6 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -73,6 +76,14 @@ WSGI_APPLICATION = 'Codepaste.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config()
 }
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.telegram.TelegramAuth',
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,3 +121,4 @@ STATICFILES_DIRS = [
 
 
 PASTEBOT_TOKEN = os.environ.get('PASTEBOT_TOKEN')
+SOCIAL_AUTH_TELEGRAM_BOT_TOKEN = PASTEBOT_TOKEN
