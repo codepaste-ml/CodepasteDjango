@@ -5,6 +5,7 @@ from django.db import Error
 from django.forms.models import model_to_dict
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Source, Lang
 
@@ -17,6 +18,7 @@ def view404(request, exception, template_name='404.html'):
     return redirect('index')
 
 
+@csrf_exempt
 def post_creation(request):
     source = request.POST.get('source', None)
     name = request.POST.get('name', None)
