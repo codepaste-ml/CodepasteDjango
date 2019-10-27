@@ -26,9 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_hosts',
+
+    'rest_framework',
+
     'paste.apps.PasteConfig',
     'bot_adapter.apps.BotConfig',
     'pastebot.apps.PastebotConfig',
+    'v1.apps.V1Config',
 ]
 
 MIDDLEWARE = [
