@@ -1,10 +1,9 @@
 import os
-import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HOST_SCHEME = 'https://'
-PARENT_HOST = 'codepaste.ml'
+PARENT_HOST = os.environ.get('DOMAIN')
 SITE_DOMAIN = HOST_SCHEME + PARENT_HOST
 
 
@@ -18,7 +17,6 @@ ALLOWED_HOSTS = [
     '*'
 ]
 
-ADMINS = [('DarkKeks', 'darkkeks@rambler.ru')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -71,7 +69,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Codepaste.wsgi.application'
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
