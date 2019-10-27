@@ -1,9 +1,11 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
+from v1.views import SourceView, LangView
 
-router = routers.DefaultRouter()
 
 v1 = [
-    path('', include(router.urls)),
+    path('sources/<slug:slug>/', SourceView.as_view()),
+    path('sources/', SourceView.as_view()),
+    path('languages/<int:pk>/', LangView.as_view()),
+    path('languages/', LangView.as_view())
 ]

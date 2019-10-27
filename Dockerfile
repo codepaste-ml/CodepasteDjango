@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-RUN apk update && apk add postgresql-dev gcc python3-dev libffi-dev musl-dev
+RUN apk update && apk add postgresql-dev gcc python3-dev libffi-dev musl-dev libc-dev
 
 RUN pip install pipenv
 
