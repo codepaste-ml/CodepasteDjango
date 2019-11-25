@@ -7,10 +7,10 @@ onmessage = function (event) {
     });
 
     var result = {};
-    if(source.source_lang === 'auto') {
-        result = self.hljs.highlightAuto(source.source_source);
+    if(source.language === 'auto') {
+        result = self.hljs.highlightAuto(source.source);
     } else {
-        result = self.hljs.highlight(source.source_lang, source.source_source, true);
+        result = self.hljs.highlight(source.language, source.source, true);
     }
     result = self.hljs.fixMarkup(result.value);
 

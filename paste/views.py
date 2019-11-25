@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Source, Lang
+from .models import Paste, Language
 
 
 def index(request):
@@ -22,19 +22,19 @@ def view404(request, exception, template_name='404.html'):
 def post_creation(request):
     source = request.POST.get('source', None)
     name = request.POST.get('name', None)
-    lang = request.POST.get('lang', None)
+    language = request.POST.get('language', None)
 
-    _source = Source(
-        source_source=source,
-        source_name=name,
-        source_lang=lang
+    _source = Paste(
+        source=source,
+        name=name,
+        language=language
     )
 
     success = True
     try:
         _source.save()
 
-        _source.source_alias = hashlib.md5(str(_source.id).encode()).hexdigest()[:8]
+        _source.alias = hashlib.md5(str(_source.id).encode()).hexdigest()[:8]
         _source.save()
     except Error as e:
         success = False
@@ -42,21 +42,21 @@ def post_creation(request):
 
     data = {
         "success": success,
-        "id": _source.source_alias,
+        "id": _source.alias,
     }
 
     return JsonResponse(data)
 
 
 def get_lang(request):
-    data = list(map(model_to_dict, Lang.objects.all()))
+    data = list(map(model_to_dict, Language.objects.all()))
 
     return JsonResponse({'data': data})
 
 
 def view_source(request, alias):
-    source = get_object_or_404(Source, source_alias=alias)
-    source = model_to_dict(source, fields="source_alias, source_lang, source_name, source_source, source_bot")
+    source = get_object_or_404(Paste, alias=alias)
+    source = model_to_dict(source, fields="alias, language, name, source, created_using_bot")
     return render(request, 'view.html', {
         'source': json.dumps(json.dumps(source)),
         'alias': alias
@@ -64,5 +64,5 @@ def view_source(request, alias):
 
 
 def view_source_raw(request, alias):
-    source = get_object_or_404(Source, source_alias=alias)
-    return HttpResponse(source.source_source, content_type='text/plain')
+    source = get_object_or_404(Paste, alias=alias)
+    return HttpResponse(source.source, content_type='text/plain')

@@ -40,7 +40,7 @@
         function submit() {
             const source = $('.code-area').val(),
                 name = $('#name').val() || "Untitled",
-                lang = $('#lang').val(),
+                language = $('#lang').val(),
                 token = $('input[name=csrfmiddlewaretoken]').val();
 
             $.ajax('/ajax/createPost/', {
@@ -48,12 +48,12 @@
                     csrfmiddlewaretoken: token,
                     source: source,
                     name: name,
-                    lang: lang
+                    language: language
                 },
                 type: "post",
                 dataType: "json",
-                success: function(data) {
-                    if(data.success) {
+                success: function (data) {
+                    if (data.success) {
                         location.href = "/" + data.id;
                     } else {
                         alert("НАПОМНИТЕ ЭТОМУ ДАУНУ ДОПИСАТЬ ЭТОТ МУСОР");
@@ -80,8 +80,8 @@
 
         $.ajax('/ajax/getLang/', {
             dataType: "json",
-            success: function(data) {
-                data.data = data.data.map((x) => ({id: x.lang_id, text:x.lang_text}));
+            success: function (data) {
+                data.data = data.data.map((x) => ({id: x.id, text: x.name}));
                 data.data.unshift({
                     id: 'auto',
                     text: 'Auto'

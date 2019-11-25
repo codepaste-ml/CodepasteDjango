@@ -4,7 +4,7 @@ from rest_framework import serializers
 from pygments.lexers import guess_lexer
 from pygments.util import ClassNotFound
 
-from paste.models import Source, Lang
+from paste.models import Paste, Language
 from pastebot.models import BotUser
 
 
@@ -16,30 +16,30 @@ class BotUserSerializer(serializers.ModelSerializer):
 
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Source
-        fields = ('source_name', 'source_source', 'source_lang','source_alias', 'source_bot', 'source_time')
+        model = Paste
+        fields = ('name', 'source', 'language', 'alias', 'created_using_bot', 'creation_date')
 
-    source_lang = serializers.CharField(read_only=True)
-    source_alias = serializers.CharField(read_only=True)
-    source_bot = serializers.BooleanField(read_only=True)
-    source_time = serializers.DateTimeField(read_only=True)
+    language = serializers.CharField(read_only=True)
+    alias = serializers.CharField(read_only=True)
+    created_using_bot = serializers.BooleanField(read_only=True)
+    creation_date = serializers.DateTimeField(read_only=True)
 
     # source_bot_user = BotUserSerializer()
 
     def create(self, validated_data):
         try:
-            lang = guess_lexer(validated_data['source_source']).name
+            language = guess_lexer(validated_data['source']).name
         except ClassNotFound:
-            lang = 'undefined'
+            language = 'undefined'
 
-        source = Source(
-            source_name=validated_data['source_name'],
-            source_source=validated_data['source_source'],
-            source_lang=lang
+        source = Paste(
+            name=validated_data['name'],
+            source=validated_data['source'],
+            language=language
         )
         source.save()
 
-        source.source_alias = hashlib.md5(str(source.id).encode()).hexdigest()[:8]
+        source.alias = hashlib.md5(str(source.id).encode()).hexdigest()[:8]
         source.save()
 
         return source
@@ -47,5 +47,5 @@ class SourceSerializer(serializers.ModelSerializer):
 
 class LangSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Lang
+        model = Language
         fields = '__all__'

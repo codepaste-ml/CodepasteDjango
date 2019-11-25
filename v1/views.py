@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from paste.models import Source, Lang
+from paste.models import Paste, Language
 from v1.serializers import SourceSerializer, LangSerializer
 
 
@@ -13,7 +13,7 @@ class SourceView(APIView):
         if slug is None:
             return Response(status.HTTP_400_BAD_REQUEST)
 
-        source = get_object_or_404(Source, source_alias=slug)
+        source = get_object_or_404(Paste, alias=slug)
         return Response(SourceSerializer(source).data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -27,7 +27,7 @@ class SourceView(APIView):
 class LangView(APIView):
     def get(self, _, pk=None):
         if pk is None:
-            return Response(LangSerializer(Lang.objects.all(), many=True).data)
+            return Response(LangSerializer(Language.objects.all(), many=True).data)
 
-        lang = get_object_or_404(Lang, pk=pk)
+        lang = get_object_or_404(Language, pk=pk)
         return Response(LangSerializer(lang).data, status=status.HTTP_200_OK)

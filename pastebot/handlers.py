@@ -6,7 +6,7 @@ from telegram import ChatAction, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
 from pastebot.models import BotUser
-from paste.models import Source
+from paste.models import Paste
 
 from pastebot.lang import translate as _
 
@@ -118,8 +118,8 @@ class Handlers:
         query.answer()
 
         text = _('paste_list')
-        sources = Source.objects.all().filter(source_bot_user=bot_user)
-        text = text.format('\n'.join([prepare_source_link(source.source_alias) for source in sources]))
+        sources = Paste.objects.all().filter(author=bot_user)
+        text = text.format('\n'.join([prepare_source_link(source.alias) for source in sources]))
 
         Dialog.LIST.execute(
             query.edit_message_text,
@@ -145,21 +145,21 @@ class Handlers:
 
         bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.TYPING)
 
-        _source = Source(
-            source_source=update.message.text,
-            source_name='Untitled',
-            source_lang='auto',
-            source_bot_user=bot_user,
-            source_bot=True
+        _source = Paste(
+            source=update.message.text,
+            name='Untitled',
+            language='auto',
+            author=bot_user,
+            created_using_bot=True
         )
 
         try:
             _source.save()
 
-            _source.source_alias = hashlib.md5(str(_source.id).encode()).hexdigest()[:8]
+            _source.alias = hashlib.md5(str(_source.id).encode()).hexdigest()[:8]
             _source.save()
 
-            text = _('paste_message').format(prepare_source_link(_source.source_alias))
+            text = _('paste_message').format(prepare_source_link(_source.alias))
 
             update.message.reply_text(text)
         except Error:

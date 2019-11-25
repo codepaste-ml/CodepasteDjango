@@ -5,61 +5,61 @@ from django.db import models
 from pastebot.models import BotUser
 
 
-class Source(models.Model):
+class Paste(models.Model):
     class Meta:
         db_table = 'paste_source'
         verbose_name = 'Source'
         verbose_name_plural = 'Sources'
 
-    source_alias = models.CharField(
+    alias = models.CharField(
         max_length=8,
         verbose_name='Alias',
     )
-    source_lang = models.CharField(
+    language = models.CharField(
         max_length=255,
-        verbose_name='Lang',
+        verbose_name='Source language',
     )
-    source_bot = models.BooleanField(
+    created_using_bot = models.BooleanField(
         default=False,
-        verbose_name='From bot',
+        verbose_name='Is created using telegram bot bot',
     )
-    source_bot_user = models.ForeignKey(
+    author = models.ForeignKey(
         BotUser,
         null=True,
         on_delete=models.SET_NULL,
-        verbose_name='Telegram user'
+        verbose_name='Telegram bot user'
     )
-    source_time = models.DateTimeField(
+    creation_date = models.DateTimeField(
         default=datetime.now,
-        verbose_name='Time'
+        verbose_name='Creation date'
     )
-    source_name = models.CharField(
+    name = models.CharField(
         max_length=255,
         verbose_name='Name',
     )
-    source_source = models.TextField(
+    source = models.TextField(
         verbose_name='Source',
     )
 
     def __str__(self):
-        return self.source_name
+        return self.name
 
 
-class Lang(models.Model):
+class Language(models.Model):
     class Meta:
         db_table = 'paste_lang'
         verbose_name = 'Language'
         verbose_name_plural = 'Languages'
 
-    lang_id = models.CharField(
+    id = models.CharField(
         primary_key=True,
         max_length=255,
         verbose_name='Id',
     )
-    lang_text = models.CharField(
+    name = models.CharField(
         max_length=255,
         verbose_name='Text',
     )
 
     def __str__(self):
-        return self.lang_text
+        return self.name

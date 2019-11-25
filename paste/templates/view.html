@@ -80,11 +80,11 @@
         var source = JSON.parse({{ source|safe }});
 
         $(function() {
-            $('.raw').val(source.source_source);
-            $('.header-text').first().text(source.source_name);
+            $('.raw').val(source.source);
+            $('.header-text').first().text(source.name);
             //$('.raw-link').attr('href', 'http://raw.codepaste.me/' + source.source_alias);
 
-            if(source.source_bot === true) {
+            if(source.created_using_bot === true) {
                 $('.header-text').first().append($('<sup>')
                     .addClass('through-bot')
                     .append($('<a>', {
