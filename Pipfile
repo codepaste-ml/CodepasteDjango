@@ -16,7 +16,7 @@ django-hosts = "==3.0"
 django-python-telegram-bot-adapter = "*"
 Django = "==2.2.6"
 djangorestframework = "==3.10.3"
-Pygments = "==2.4.2"
+Pygments = "==2.7.4"
 
 [requires]
 python_version = "3.7"
