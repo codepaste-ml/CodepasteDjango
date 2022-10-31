@@ -1,5 +1,7 @@
 FROM python:3.7-alpine
 
+EXPOSE 8000
+
 RUN apk update && apk add postgresql-dev gcc python3-dev libffi-dev musl-dev libc-dev
 
 RUN pip install pipenv
