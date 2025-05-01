@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.urls import path, re_path
 
-from paste.views import index, post_creation, get_lang, view_source
+from paste.views import index, post_creation, get_lang, view_source, view_source_raw
 
 urlpatterns = [
     path('ajax/createPost/', post_creation, name='post_creation'),
     path('ajax/getLang/', get_lang, name='get_lang'),
     re_path(r'^(?P<alias>[a-f0-9]{8})/$', view_source, name='view_source'),
+    re_path(r'^r/(?P<alias>[a-f0-9]{8})/$', view_source_raw, name='view_source_raw'),
     path('', index, name='index'),
 ]
